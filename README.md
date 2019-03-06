@@ -52,6 +52,25 @@ Once you are signed into the Azure portal, you can create your first serverless 
 
  Choose 'Webhook + API'. This will give us a function that is set up to respond to HTTP requests. Once you've chosen this option, Azure will create your function, populate it with some default code, and send you to a code editor for your new function:
 
+ ![default code editor](images/default-code.png)
+
+ If you want to see the default code in action, click on the 'Get function URL' link. Copy the link provided, paste it in a new browser tab, and load it. 
+
+ You'll notice that your function complains that you need to provide a name as part of the query string. 
+
+ If you look at the URL, you'll notice that it already contains a query parameter called 'code'. By default, Azure generates an access code for every serverless function to prevent unauthorized access. 
+
+ While you'd want to add a more sophisticated access control policy to a production application, the Azure-generated access code is perfect for our first serverless function since we just creating it for ourselves. 
+
+ Since the URL already has a quesry string, simple append
+ ```
+ &name=Bob
+ ```
+ to the end of the URL in your browser, and hit Enter. This time, the function will say hello to Bob! 
+
+ And with that, we have a serverless app created, running, and responding to HTTP requests. Notice all of the things we *didn't* have to do: we didn't have to install a web server, or a web framework. We filled out a short form, clicked a few times, and ended up with a functioning web application. 
+
+ ## Customizing the Code
  
 
 
