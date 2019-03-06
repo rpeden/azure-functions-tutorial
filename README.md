@@ -26,8 +26,32 @@ Once you are signed into the Azure portal, you can create your first serverless 
 
  For the rest of the settings, use what is shown in the image above: Windows OS, Consumption Plan, Central US as the location, and JavaScript as the runtime stack. Let Azure create new storage for your function app. 
 
- When you've done all of this, click 'Create'. Azure will pop up a notification telling you that deployment is in progress:
+ When you've done all of this, click 'Create'. Azure will pop up a notification telling you that deployment is in progress. If you click the notifications icon at the top of the screen, you'll see the deployment status of your app:
 
  ![deploy in progress](images/deploying.png)
+
+ When deployment finishes, the notification will update to tell you so:
+
+ ![deployment complete](images/deployed.png)
+
+ Click on the 'Go to resource' button, and you'll be taken to your Function App's dashboard:
+
+ ![function app dashboard](images/app-dash.png)
+
+ So we now have a Function App, but we haven't added any actual functions to it. Let's fix that! On the app dashboard, click on the '+ New function' button. This will open a dialog asking you to choose your development environment:
+
+ ![choose development environment](images/function-dev-env.png)
+
+ Choose the 'In-portal' option. This way, you won't have to install anything on your computer to get your serverless app up and running. 
+
+ In a real-world scenario, where you'll working on serverless apps that contain many functions, you'll probably want to use Visual Studio, VS Code, or another text editor or IDE of your choice. But for small projects like ours, using the in-portal editor makes the app creation process quick and easy! 
+
+ After we've chosen our development environment, Azure will ask us to choose the type of function we want:
+
+ ![choose function type](images/function-type.png)
+
+ Choose 'Webhook + API'. This will give us a function that is set up to respond to HTTP requests. Once you've chosen this option, Azure will create your function, populate it with some default code, and send you to a code editor for your new function:
+
+ 
 
 
