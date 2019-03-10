@@ -76,7 +76,25 @@ Now that we have our function in place, let's make it do something useful!
 
 We're going to turn our serverless function into a geocoding service - it will take a POST request that contains a street address in the body, and will return a set of map coordinates for that street address. 
 
-To do this, we'll need to use Azure Maps. Like Azure Functions, Azure Maps has a free tier that we will be making use of. 
+To do this, we'll need to use Azure Maps. Like Azure Functions, Azure Maps has a free tier that we will be making use of. To use Azure Maps, we'll need to create a new resource in the Azure Portal. 
 
+Start by clicking 'Create resource', and then enter 'Maps' in the search box:
 
+![create maps resource](images/search-for-maps.png)
+
+In the drop down box that appears, click 'Maps'. This will bring up a screen with more information on the Maps service. Click the 'Create' button on this screen to proceed:
+
+![create maps resource](images/create-maps-resource.png)
+
+This will take you to the Azure Maps account creation screen. As you can see, it will be associated with your Free Trial account, or your existing Azure account if you had one before beginning this exercise:
+
+![create maps account](images/create-maps-account.png)
+
+Add the maps account to the resource groups you already created for your Function App. Pick a name for your maps account. Anything will work! 
+
+For the Pricing Tier, choose 'Standard S0'. This tier will do everything we need, and our usage will fall into the Azure Maps' free tier. 
+
+When you're done, click 'Create' and Azure will add the Maps resource to your resource group. When it is ready, you'll be taken to an overview page:
+
+![maps overview page](images/maps-overview.png)
 
