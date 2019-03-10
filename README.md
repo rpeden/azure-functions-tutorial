@@ -62,15 +62,21 @@ Once you are signed into the Azure portal, you can create your first serverless 
 
  While you'd want to add a more sophisticated access control policy to a production application, the Azure-generated access code is perfect for our first serverless function since we just creating it for ourselves. 
 
- Since the URL already has a quesry string, simple append
+ Since the URL already has a query string, simply append
  ```
  &name=Bob
  ```
  to the end of the URL in your browser, and hit Enter. This time, the function will say hello to Bob! 
 
- And with that, we have a serverless app created, running, and responding to HTTP requests. Notice all of the things we *didn't* have to do: we didn't have to install a web server, or a web framework. We filled out a short form, clicked a few times, and ended up with a functioning web application. 
+ And with that, we have a serverless app created, running, and responding to HTTP requests. Notice all of the things we *didn't* have to do: we didn't have to install Node.js, or a web server or, a web framework. We filled out a short form, clicked a few times, and ended up with a functioning web application. 
 
  ## Customizing the Code
- 
+
+Now that we have our function in place, let's make it do something useful! 
+
+We're going to turn our serverless function into a geocoding service - it will take a POST request that contains a street address in the body, and will return a set of map coordinates for that street address. 
+
+To do this, we'll need to use Azure Maps. Like Azure Functions, Azure Maps has a free tier that we will be making use of. 
+
 
 
