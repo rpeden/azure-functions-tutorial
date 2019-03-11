@@ -1,9 +1,9 @@
-*This article is part of CodeProject's [Serverless Challenge](https://www.codeproject.com/Competitions/1076/Serverless-Challenge.aspx). If you're not quite sure what 'Serverless' is, you may want to start with the [introductory article](https://www.codeproject.com/Articles/1278907/What-is-Serverless-and-Why-Should-You-Care)*
+*This article is part of CodeProject's [Serverless Challenge](https://www.codeproject.com/Competitions/1076/Serverless-Challenge.aspx).
 
 ## Introduction
 Welcome! In this tutorial, we’re going to be creating a simple but fun HTTP API using Azure Functions. 
 
-If you’re new to Serverless and are wondering what all of the fuss is about, I suggest you take a few minutes to read my introductory article. There, I give a high level over what Serverless is all about and why “Serverless” isn’t as horrible a name as you might be thinking it is. 
+If you’re new to Serverless and are wondering what all of the fuss is about, I suggest you take a few minutes to read my [introductory article](https://www.codeproject.com/Articles/1278907/What-is-Serverless-and-Why-Should-You-Care). There, I give a high level over what Serverless is all about and why “Serverless” isn’t as horrible a name as you might be thinking it is. 
 
 ## Getting Started
 If you don’t have an Azure account yet, you’ll need to create one first. Click here to jump to the account creation page. 
