@@ -257,6 +257,10 @@ You'll see that in addition to the latitude and longitude, Azure Maps returned a
 
 In cases where someone provides an address but forgets to add a zip or postal code, you could use Azure Maps to look it up. 
 
+## Contest Verification
+
+Instructions on how to generate an entry code for the Serverless Challenge will be added once the contest has opened.
+
 ## Conclusion
 
 That brings us to the end of our Serverless tutorial. We've created a serverless Function App on Azure, and hooked it up to Azure Maps to do some geocoding. 
