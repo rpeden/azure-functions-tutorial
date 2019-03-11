@@ -11,7 +11,8 @@ const request = (url) => {
             });
 
             resp.on("end", () => {
-                resolve(data);
+                const res = JSON.parse(data)
+                resolve(res);
             });
         }).on("error", (err) => {
             reject(err);
@@ -28,7 +29,7 @@ module.exports = async function (context, req) {
             context.log("got data");
             context.res = {
                 status: 200,
-                body: data
+                body: data.results
             };
             context.done();
         } catch(err) {

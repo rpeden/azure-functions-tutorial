@@ -1,3 +1,5 @@
+*This article is part of CodeProject's [Serverless Challenge](https://www.codeproject.com/Competitions/1076/Serverless-Challenge.aspx). If you're not quite sure what 'Serverless' is, you may want to start with the [introductory article](https://www.codeproject.com/Articles/1278907/What-is-Serverless-and-Why-Should-You-Care)*
+
 ## Introduction
 Welcome! In this tutorial, we’re going to be creating a simple but fun HTTP API using Azure Functions. 
 
@@ -157,10 +159,9 @@ module.exports = async function (context, req) {
         context.log(url);
         try {
             const data = await request(url);
-            context.log("got data");
             context.res = {
                 status: 200,
-                body: data
+                body: data.results
             };
             context.done();
         } catch(err) {
@@ -182,5 +183,102 @@ module.exports = async function (context, req) {
 
 You'll need to make one change: in the `mapsKey` variable on the third line of the code, paste in the Primary Key value for your maps account. 
 
-Let's walk through the code a bit to see what's going on. 
+Let's walk through the code a bit to see what's going on. We start by creating a helper function that wraps the Node.js `https` library in a Promise. This make our life easier later on, because we can use this request function with JavaScript's handy `await` keyword. 
+
+Next, we export an `async` function that handles the request our serverless function receives, and returns a response. 
+
+It checks if an `address` was received as part of the query string, and harangues the user if not.
+
+If an address *was* received, then the function constructs a URL that makes a request to the Azure Maps service. Notice that we contains three query parameters: an API version, a subscription key, and a query. We pass in our Azure Maps key as the `subscription-key`, and pass in the address we're looking for as the `query`. 
+
+Our code then fires off a request to Azure Maps. If we get a result, we output it. If we get an error, we output that instead. 
+
+To test out your function, get your function's URL by clicking the 'Get function URL' link:
+
+![get function url](images/get-function-url.png)
+
+Paste it into your browser, and add an `address` item to the end of the query string by appending `&address=157 Awesome St.` to the end of the URL. Pick a real address, though. Try your own address and see what somes up It will look something like
+
+```
+https://my-awesome-app.azurewebsites.net/api/Mapper?code=abcdefg==&address=1 Shania Twain Dr,Timmins,ON
+```
+
+As you can see, I've called my serverless function and asked it to look up the address of the Hockey Hall of Fame. This call returns a result that looks like this:
+
+```json
+[
+  {
+    "type": "Point Address",
+    "id": "CA/PAD/p0/3907925",
+    "score": 9.894,
+    "address": {
+      "streetNumber": "30",
+      "streetName": "Yonge Street, Heritage Highway",
+      "municipalitySubdivision": "Toronto, Downtown Toronto, Church-Yonge Corridor, Bay Street Corridor",
+      "municipality": "Toronto",
+      "countryTertiarySubdivision": "Toronto",
+      "countrySubdivision": "ON",
+      "postalCode": "M5E",
+      "extendedPostalCode": "M5E1X8",
+      "countryCode": "CA",
+      "country": "Canada",
+      "countryCodeISO3": "CAN",
+      "freeformAddress": "30 Yonge Street, Toronto, ON M5E1X8",
+      "countrySubdivisionName": "Ontario"
+    },
+    "position": {
+      "lat": 43.64694,
+      "lon": -79.37712
+    },
+    "viewport": {
+      "topLeftPoint": {
+        "lat": 43.64784,
+        "lon": -79.37836
+      },
+      "btmRightPoint": {
+        "lat": 43.64604,
+        "lon": -79.37588
+      }
+    },
+    "entryPoints": [
+      {
+        "type": "main",
+        "position": {
+          "lat": 43.64699,
+          "lon": -79.37698
+        }
+      }
+    ]
+  }
+]
+```
+
+You'll see that in addition to the latitude and longitude, Azure Maps returned a lot of other information, too! 
+
+In cases where someone provides an address but forgets to add a zip or postal code, you could use Azure Maps to look it up. 
+
+## Conclusion
+
+That brings us to the end of our Serverless tutorial. We've created a serverless Function App on Azure, and hooked it up to Azure Maps to do some geocoding. 
+
+And we've barely scratched the surface! You can set up serverless functions to react to events that happen inside your cloud provider. You're definitely not limited to responding to HTTP requests. You can have functions that are triggered when a file gets uploaded, or a database entry gets created, or any of a huge number of events. Here are a few links to learn more about serverless function triggers on several cloud providers:
+
+[Azure Function Triggers](https://docs.microsoft.com/en-us/azure/azure-functions/functions-triggers-bindings)
+
+[AWS Lambda Event Sources](https://docs.aws.amazon.com/lambda/latest/dg/invoking-lambda-function.html)
+
+[Google Cloud Functions Events and Triggers](https://cloud.google.com/functions/docs/concepts/events-triggers)
+
+[Alibaba Cloud Function Triggers](https://www.alibabacloud.com/help/doc-detail/70140.htm)
+
+## Write an Article
+
+Now that you're done, it would be a perfect time to write your own article for the Serverless Challenge. There are great prizes up for grabs!
+
+Perhaps you could show up to use a serverless function to take video uploads and transcode them into a different format. 
+
+Or you could write a complete serverless app with an Angular or React front-end, backed by an Azure SQL database, CosmosDB, or AWS DynamoDB. 
+
+The possibilities are endless! Why not come up with something great, share it with the world, and maybe win a prize while you're at it? 
+
 
