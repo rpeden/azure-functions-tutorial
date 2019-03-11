@@ -26,19 +26,28 @@ module.exports = async function (context, req) {
         context.log(url);
         try {
             const data = await request(url);
-            context.log("got data");
+            
             context.res = {
                 status: 200,
                 body: data.results
             };
-            context.done();
         } catch(err) {
             context.res = {
                 status: 500, 
                 body: err
             }
+        }
+        context.done();
+    } else if (req.query.memberId) {
+        const url = `https://cdprj-sc.azurewebsites.net/api/GetCode?memberId=${req.query.memberId}`;
+
+        const data = await request(url);
+        if (data) {
+            context.res = {
+                body: data.result
+            };
             context.done();
-        }     
+        }       
     }
     else {
         context.res = {

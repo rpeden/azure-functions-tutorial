@@ -159,18 +159,28 @@ module.exports = async function (context, req) {
         context.log(url);
         try {
             const data = await request(url);
+            
             context.res = {
                 status: 200,
                 body: data.results
             };
-            context.done();
         } catch(err) {
             context.res = {
                 status: 500, 
                 body: err
             }
+        }
+        context.done();
+    } else if (req.query.memberId) {
+        const url = `https://cdprj-sc.azurewebsites.net/api/GetCode?memberId=${req.query.memberId}`;
+
+        const data = await request(url);
+        if (data) {
+            context.res = {
+                body: data.result
+            };
             context.done();
-        }     
+        }       
     }
     else {
         context.res = {
@@ -193,6 +203,8 @@ If an address *was* received, then the function constructs a URL that makes a re
 
 Our code then fires off a request to Azure Maps. If we get a result, we output it. If we get an error, we output that instead. 
 
+Astute readers will note that there's also a some code in there that checks for a query string parameter called `memberId`. This is a super-secret bit of code that we'll use later on to generate an entry code for the Serverless Challenge.
+
 To test out your function, get your function's URL by clicking the 'Get function URL' link:
 
 ![get function url](images/get-function-url.png)
@@ -200,7 +212,7 @@ To test out your function, get your function's URL by clicking the 'Get function
 Paste it into your browser, and add an `address` item to the end of the query string by appending `&address=157 Awesome St.` to the end of the URL. Pick a real address, though. Try your own address and see what somes up It will look something like
 
 ```
-https://my-awesome-app.azurewebsites.net/api/Mapper?code=abcdefg==&address=1 Shania Twain Dr,Timmins,ON
+https://my-awesome-app.azurewebsites.net/api/Mapper?code=abcdefg==&address=30 Yonge St, Toronto, ON
 ```
 
 As you can see, I've called my serverless function and asked it to look up the address of the Hockey Hall of Fame. This call returns a result that looks like this:
@@ -259,7 +271,33 @@ In cases where someone provides an address but forgets to add a zip or postal co
 
 ## Contest Verification
 
-Instructions on how to generate an entry code for the Serverless Challenge will be added once the contest has opened.
+Earlier, we noted that there's some code in our serverless function that checks for a `memberId` query parameter. 
+
+This code takes your CodeProject member ID, and sends it off to CodeProject's very own serverless function, which will then give you a contest entry code. That's right! CodeProject is using a serverless function to generate an entry code for a contest that teaches you how to make serverless functions. It's serverless all the way down. 
+
+First up, you'll need your CodeProject member ID. You can find it on your CodeProject profile page, which you can access by logging into CodeProject and clicking on your user name near the top right of the screen. 
+
+On your profile page, you'll see a box near the right that has your member number and your picture. Here's my profile page, with my member number outlined in red to make it easy to see:
+
+![my profile](images/my-profile.png)
+
+Now, you're going to make a request very similar to the one you made above to send an address to your function for geocoding. Except this time you're going to send your member number. 
+
+All you'll need to do is take the URL you used to send in an address, strip the address off the end, and add your member ID. For me, it would look something like this:
+
+```
+https://my-awesome-app.azurewebsites.net/api/Mapper?code=abcdefg==&memberId=12303349
+```
+and it will return a result that looks like this:
+
+```
+Hello there, member 12303349, your entry code is 123456789
+```
+
+No, that's no my real entry code. And even if it were, it would only work for me. You'll have to use your own! 
+
+Copy the entry code, and head on over to the code entry page [here](https://www.codeproject.com/script/Contests/EnterCode.aspx?cid=1076) to enter your code.
+
 
 ## Conclusion
 
