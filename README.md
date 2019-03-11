@@ -98,3 +98,89 @@ When you're done, click 'Create' and Azure will add the Maps resource to your re
 
 ![maps overview page](images/maps-overview.png)
 
+Click on the 'Go to resource' button, which will take you to the dashboard for your maps account:
+
+![maps dashboard](images/map-dashboard.png)
+
+Click on the Authentication menu item under Settings. This will bring up some information that we're going to need very soon:
+
+![maps authentication](images/maps-authentication.png)
+
+For the purposes of this exercise, the value you'll want to pay attention to is the Primary Key. Copy it somewhere, or leave the map Authentication screen open in a browser tab, because you'll need it in just a minute!
+
+With our maps account created, it's time to go and make a serverless function that can take an address and turn it into a latitude and longitude - and, it turns out, a lot of other information as well! 
+
+Load up your Function App by clicking the Functions App item in the Azure Portal menu, and then click on the app you created earlier to load its dashboard. We're going to create a new function to handle our mapping functionality.
+
+In your app dashboard, click the + icon beside the Functions menu item:
+
+![create function button](images/functions-plus.png)
+
+When asked for a function type, choose HTTP Trigger:
+
+![choose function type](images/http-trigger.png)
+
+Give the new function any name you'd like, and leave its authorization level set to Function:
+
+![new function name](images/new-function-name.png)
+
+Click 'Create', and you'll be taken to your new function's code. It will contain the same default code you saw earlier. Start by erasing *all* of the default code so you're left with a blank code editor. 
+
+Next, replace it with the following code:
+
+```javascript
+const https = require("https");
+const apiVersion = 1.0;
+const mapsKey = "your maps key goes here";
+
+const request = (url) => {
+    return new Promise((resolve, reject) => {     
+        https.get(url, (resp) => {
+            let data = "";
+            resp.on("data", (chunk) => {
+                data += chunk;
+            });
+
+            resp.on("end", () => {
+                const res = JSON.parse(data)
+                resolve(res);
+            });
+        }).on("error", (err) => {
+            reject(err);
+        });
+    });
+}
+
+module.exports = async function (context, req) {
+    if (req.query.address) {
+        const url = `https://atlas.microsoft.com/search/fuzzy/json?api-version=${apiVersion}&subscription-key=${mapsKey}&query=${req.query.address}`
+        context.log(url);
+        try {
+            const data = await request(url);
+            context.log("got data");
+            context.res = {
+                status: 200,
+                body: data
+            };
+            context.done();
+        } catch(err) {
+            context.res = {
+                status: 500, 
+                body: err
+            }
+            context.done();
+        }     
+    }
+    else {
+        context.res = {
+            status: 400,
+            body: "Please pass an address as part of the query string."
+        };
+    }
+};
+```
+
+You'll need to make one change: in the `mapsKey` variable on the third line of the code, paste in the Primary Key value for your maps account. 
+
+Let's walk through the code a bit to see what's going on. 
+
