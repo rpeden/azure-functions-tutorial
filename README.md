@@ -1,4 +1,4 @@
-*This article is part of CodeProject's [Serverless Challenge](https://www.codeproject.com/Competitions/1076/Serverless-Challenge.aspx).
+*This article is part of CodeProject's [Serverless Challenge](https://www.codeproject.com/Competitions/1076/Serverless-Challenge.aspx).*
 
 ## Introduction
 Welcome! In this tutorial, we’re going to be creating a simple but fun HTTP API using Azure Functions. 
